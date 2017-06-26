@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import io from 'socket.io-client';
+//import io from 'socket.io-client';
+import io from 'socket.io/node_modules/socket.io-client';
 
 class App extends React.Component{
 
@@ -9,6 +10,15 @@ class App extends React.Component{
 		this.state = {
 			messages: []
 		}
+	}
+
+	componentDidMount(){
+		this.socket = io('/');
+		this.socket.on('message', message => {
+			this.setState({
+				messages: [message, ...this.state.messages]
+			});
+		});
 	}
 
 	render(){
@@ -37,6 +47,7 @@ class App extends React.Component{
 			this.setState({
 				messages: [message, ...this.state.messages]
 			});
+			this.socket.emit('message', body);
 			event.target.value = '';
 		}
 	}
