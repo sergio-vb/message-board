@@ -1,6 +1,7 @@
 import React from 'react';
-//import io from 'socket.io-client';
-import io from 'socket.io/node_modules/socket.io-client';
+import io from 'socket.io-client';
+//import io from 'socket.io/node_modules/socket.io-client';
+
 import UserInput from './userInput';
 
 export default class App extends React.Component{
@@ -25,10 +26,11 @@ export default class App extends React.Component{
 	render(){
 
 		const messages = this.state.messages.map( (message, index) => 
-			<li key={index}><b>{message.from}:</b>{message.body}</li>
+			<li key={index}><b>{message.from}:</b> {message.body}</li>
 		)
 
-		return (
+		/*
+		
 			<div>
 				<h1>Real Time Message Board</h1>
 				
@@ -40,6 +42,38 @@ export default class App extends React.Component{
 				<h3>Messages:</h3>
 				{messages}
 			</div>
+
+		*/
+
+		return (
+
+			<div className="intro-header">
+		        <div className="container">
+
+		            <div className="row">
+		                <div className="col-lg-12">
+		                    <div className="intro-message">
+		                        <h1>Real Time Message Board</h1>
+		                        
+		                        <UserInput 
+									username={this.state.username} 
+									setUsername={this.setUsername}
+									handleSubmit={this.handleSubmit} />
+
+								
+								<h3>Messages:</h3>
+								<ul className="messages">
+									{messages}
+								</ul>
+		                        
+		                    </div>
+		                </div>
+		            </div>
+
+		        </div>
+
+		    </div>
+			
 		);
 	}
 
