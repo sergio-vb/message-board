@@ -1,6 +1,6 @@
 import React from 'react';
-import io from 'socket.io-client';
-//import io from 'socket.io/node_modules/socket.io-client';
+//import io from 'socket.io-client';
+import io from 'socket.io/node_modules/socket.io-client';
 
 import UserInput from './userInput';
 

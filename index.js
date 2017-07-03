@@ -14,6 +14,21 @@ app.use(express.static(__dirname + '/public'));
 app.use(webpackDevMiddleware(webpack(webpackConfig)));
 app.use(bodyParser.urlencoded({extended: false}));
 
+app.post('/', (req, res) => {
+	const Body = req.body.Body;
+	const From = req.body.From;
+
+	const message = {
+		body: Body,
+		from: From.slice(8)
+	}
+	io.emit('message', message);
+	res.send(`
+		<Response>
+			<Message>Thanks for texting! - Sergio V.</Message>
+		</Response>
+	`);
+})
 
 io.on('connection', socket => {
 	socket.on('message', body => {

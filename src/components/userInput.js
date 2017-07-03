@@ -13,7 +13,7 @@ const UserInput = (props) => {
 	}else{*/
 		return (
 			<div className="user-input">
-				<p>Type in the input and press enter to send a message.</p>
+				<p>Type in the input and press enter to send a message. Alternatively, send an SMS or MMS to (929) 265-5691 (US phone number) to deliver it to this chat.</p>
 				<input className="form-control" type="text" placeholder="Enter a message..." onKeyUp={props.handleSubmit} />
 			</div>
 		);
