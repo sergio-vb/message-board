@@ -17,10 +17,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.post('/', (req, res) => {
 	const Body = req.body.Body;
 	const From = req.body.From;
+	const MediaUrl0 = req.body.MediaUrl0;
 
 	const message = {
 		body: Body,
-		from: From.slice(8)
+		from: From.slice(8),
+		img: MediaUrl0
 	}
 	io.emit('message', message);
 	res.send(`

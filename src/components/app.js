@@ -25,9 +25,10 @@ export default class App extends React.Component{
 
 	render(){
 
-		const messages = this.state.messages.map( (message, index) => 
-			<li key={index}><b>{message.from}:</b> {message.body}</li>
-		)
+		const messages = this.state.messages.map( (message, index) => {
+			const img = message.img ? <img src={message.img} width='200px' /> : null;
+			return <li key={index}><b>{message.from}:</b> {message.body} {img}</li>
+		});
 
 		/*
 		
