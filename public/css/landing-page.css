@@ -186,3 +186,10 @@ ul.messages li{
     width: 80%;
     margin: 4em auto;
 }
+.alert{
+    padding: 0.5em;
+    margin-top: 0.5em;
+}
+.glyphicon{
+    margin-right: 3px;
+}

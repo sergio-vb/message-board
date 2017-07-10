@@ -1,6 +1,6 @@
 import React from 'react';
-//import io from 'socket.io-client';
-import io from 'socket.io/node_modules/socket.io-client';
+import io from 'socket.io-client';
+//import io from 'socket.io/node_modules/socket.io-client';
 
 import UserInput from './userInput';
 
@@ -38,7 +38,7 @@ export default class App extends React.Component{
 				<UserInput 
 					username={this.state.username} 
 					setUsername={this.setUsername}
-					handleSubmit={this.handleSubmit} />
+					onMessageSubmit={this.onMessageSubmit} />
 				
 				<h3>Messages:</h3>
 				{messages}
@@ -59,7 +59,7 @@ export default class App extends React.Component{
 		                        <UserInput 
 									username={this.state.username} 
 									setUsername={this.setUsername}
-									handleSubmit={this.handleSubmit} />
+									onMessageSubmit={this.onMessageSubmit} />
 
 								
 								<h3>Messages:</h3>
@@ -84,7 +84,7 @@ export default class App extends React.Component{
 		});
 	}
 
-	handleSubmit = event => {
+	onMessageSubmit = event => {
 		const body = event.target.value;
 		if (event.keyCode === 13 && body){
 			//console.log("Message submitted:", body, "This:", this);
@@ -98,6 +98,10 @@ export default class App extends React.Component{
 			this.socket.emit('message', body);
 			event.target.value = '';
 		}
+	}
+
+	onUsernameSubmit = event => {
+		
 	}
 
 }

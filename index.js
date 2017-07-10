@@ -27,7 +27,7 @@ app.post('/', (req, res) => {
 	io.emit('message', message);
 	res.send(`
 		<Response>
-			<Message>Thanks for texting! - Sergio V.</Message>
+			<Message>Thanks for texting! Hope you liked my projects! - Sergio V.</Message>
 		</Response>
 	`);
 })
