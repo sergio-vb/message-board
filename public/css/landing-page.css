@@ -172,15 +172,31 @@ p.copyright {
     margin: 15px 0 0;
 }
 
-ul.messages{
+.messages{
     padding: 0;
 }
-ul.messages li{
+.messages li{
     text-align: left;
     list-style: none;
     line-height: 1.5em;
-    padding: 1em 0;
-    border-top: 1px solid #ccc;
+    padding: 0.3em 0;
+    /*border-top: 1px solid #ccc;*/
+    overflow: auto;
+}
+.messages li p{
+    margin: 0;
+    padding: 1em;
+    width: 90%;
+}
+.messages .messageContainer{
+    background: rgba(96, 91, 88, 0.5);
+    border-radius: 5px;
+    float: left;
+}
+.messages .messageContainerOwn{
+    background: rgba(102, 120, 124, 0.5);
+    border-radius: 5px;
+    float: right;
 }
 .user-input{
     width: 80%;

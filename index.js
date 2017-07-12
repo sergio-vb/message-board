@@ -24,7 +24,7 @@ app.post('/', (req, res) => {
 
 	const message = {
 		body: Body,
-		from: From.slice(8),
+		from: "Mobile User " + From.slice(8),
 		img: MediaUrl0
 	}
 	io.emit('message', message);
@@ -40,6 +40,8 @@ io.on('connection', socket => {
 		if (connectedUsers.indexOf(data) != -1){
 			callback({isValidUser: false});
 		}else{
+			socket.nickname = data;
+			connectedUsers.push(data);
 			callback({isValidUser: true});
 		}
 	});
@@ -47,7 +49,8 @@ io.on('connection', socket => {
 	socket.on('message', body => {
 		socket.broadcast.emit('message', {
 			body,
-			from: socket.id.slice(8)
+			//from: socket.id.slice(8)
+			from: socket.nickname
 		});
 	});
 });

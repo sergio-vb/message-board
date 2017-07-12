@@ -1,6 +1,6 @@
 import React from 'react';
-import io from 'socket.io-client';
-//import io from 'socket.io/node_modules/socket.io-client';
+//import io from 'socket.io-client';
+import io from 'socket.io/node_modules/socket.io-client';
 
 import UserInput from './userInput';
 
@@ -28,7 +28,7 @@ export default class App extends React.Component{
 
 		const messages = this.state.messages.map( (message, index) => {
 			const img = message.img ? <img src={message.img} width='200px' /> : null;
-			return <li key={index}><b>{message.from}:</b> {message.body} {img}</li>
+			return <li key={index}><p className="messageContainer"><b>{message.from}:</b> {message.body} {img}</p></li>
 		});
 
 		return (
@@ -70,7 +70,7 @@ export default class App extends React.Component{
 			//console.log("Message submitted:", body, "This:", this);
 			const message = {
 				body,
-				from: 'Me'
+				from: this.state.username
 			};
 			this.setState({
 				messages: [message, ...this.state.messages]
