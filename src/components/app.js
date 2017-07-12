@@ -10,7 +10,8 @@ export default class App extends React.Component{
 		super(props);
 		this.state = {
 			messages: [],
-			username: ""
+			username: "",
+			usernameError: false
 		};
 	}
 
@@ -30,22 +31,6 @@ export default class App extends React.Component{
 			return <li key={index}><b>{message.from}:</b> {message.body} {img}</li>
 		});
 
-		/*
-		
-			<div>
-				<h1>Real Time Message Board</h1>
-				
-				<UserInput 
-					username={this.state.username} 
-					setUsername={this.setUsername}
-					onMessageSubmit={this.onMessageSubmit} />
-				
-				<h3>Messages:</h3>
-				{messages}
-			</div>
-
-		*/
-
 		return (
 
 			<div className="intro-header">
@@ -58,8 +43,9 @@ export default class App extends React.Component{
 		                        
 		                        <UserInput 
 									username={this.state.username} 
-									setUsername={this.setUsername}
-									onMessageSubmit={this.onMessageSubmit} />
+									usernameError={this.state.usernameError}
+									onMessageSubmit={this.onMessageSubmit}
+									onUsernameSubmit={this.onUsernameSubmit} />
 
 								
 								<h3>Messages:</h3>
@@ -76,12 +62,6 @@ export default class App extends React.Component{
 		    </div>
 			
 		);
-	}
-
-	setUsername = (username) => {
-		this.setState({
-			username
-		});
 	}
 
 	onMessageSubmit = event => {
@@ -102,6 +82,27 @@ export default class App extends React.Component{
 
 	onUsernameSubmit = event => {
 		
+		const username = event.target.value;
+		
+		if (event.keyCode === 13 && username){
+			
+			//console.log("Username submitted:", username, "This:", this);
+			this.socket.emit('new_user', username, (data) => {
+				
+				if (data.isValidUser){
+					this.setState({
+						username,
+						usernameError: false
+					});
+				}else{
+					console.log("Setting usernameError to true.");
+					this.setState({
+						usernameError: true
+					});
+				}
+			});
+			event.target.value = '';
+		}
 	}
 
 }

@@ -14,6 +14,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(webpackDevMiddleware(webpack(webpackConfig)));
 app.use(bodyParser.urlencoded({extended: false}));
 
+
+const connectedUsers = ['dog'];
+
 app.post('/', (req, res) => {
 	const Body = req.body.Body;
 	const From = req.body.From;
@@ -33,6 +36,14 @@ app.post('/', (req, res) => {
 })
 
 io.on('connection', socket => {
+	socket.on('new_user', (data, callback) => {
+		if (connectedUsers.indexOf(data) != -1){
+			callback({isValidUser: false});
+		}else{
+			callback({isValidUser: true});
+		}
+	});
+
 	socket.on('message', body => {
 		socket.broadcast.emit('message', {
 			body,
