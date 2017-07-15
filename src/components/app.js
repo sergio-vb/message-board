@@ -1,8 +1,12 @@
 import React from 'react';
-//import io from 'socket.io-client';
-import io from 'socket.io/node_modules/socket.io-client';
+import io from 'socket.io-client';
+//import io from 'socket.io/node_modules/socket.io-client';
 
+import MasterTemplate from './masterTemplate';
 import UserInput from './userInput';
+import Messages from './messages';
+import ConnectedUsers from './connectedUsers';
+
 
 export default class App extends React.Component{
 
@@ -11,7 +15,8 @@ export default class App extends React.Component{
 		this.state = {
 			messages: [],
 			username: "",
-			usernameError: false
+			usernameError: false,
+			connectedUsers: []
 		};
 	}
 
@@ -22,45 +27,34 @@ export default class App extends React.Component{
 				messages: [message, ...this.state.messages]
 			});
 		});
+		this.socket.on('connected_users_update', users => {
+			this.setState({
+				connectedUsers: users
+			});
+		});
+
 	}
 
 	render(){
 
-		const messages = this.state.messages.map( (message, index) => {
-			const img = message.img ? <img src={message.img} width='200px' /> : null;
-			return <li key={index}><p className="messageContainer"><b>{message.from}:</b> {message.body} {img}</p></li>
-		});
+		const showUsers = this.state.username !== "" ? <ConnectedUsers users={this.state.connectedUsers} /> : null;
 
 		return (
-
-			<div className="intro-header">
-		        <div className="container">
-
-		            <div className="row">
-		                <div className="col-lg-12">
-		                    <div className="intro-message">
-		                        <h1>Real Time Message Board</h1>
-		                        
-		                        <UserInput 
-									username={this.state.username} 
-									usernameError={this.state.usernameError}
-									onMessageSubmit={this.onMessageSubmit}
-									onUsernameSubmit={this.onUsernameSubmit} />
-
-								
-								<h3>Messages:</h3>
-								<ul className="messages">
-									{messages}
-								</ul>
-		                        
-		                    </div>
-		                </div>
-		            </div>
-
-		        </div>
-
-		    </div>
+			<MasterTemplate>
 			
+                <h1>Real Time Message Board</h1>
+                
+                <UserInput 
+					username={this.state.username} 
+					usernameError={this.state.usernameError}
+					onMessageSubmit={this.onMessageSubmit}
+					onUsernameSubmit={this.onUsernameSubmit} />
+
+				<Messages messages={this.state.messages} />
+				
+				{showUsers}
+
+			</MasterTemplate>
 		);
 	}
 
@@ -70,7 +64,8 @@ export default class App extends React.Component{
 			//console.log("Message submitted:", body, "This:", this);
 			const message = {
 				body,
-				from: this.state.username
+				from: this.state.username,
+				isOwnMessage: true
 			};
 			this.setState({
 				messages: [message, ...this.state.messages]
@@ -95,7 +90,6 @@ export default class App extends React.Component{
 						usernameError: false
 					});
 				}else{
-					console.log("Setting usernameError to true.");
 					this.setState({
 						usernameError: true
 					});

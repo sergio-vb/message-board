@@ -15,7 +15,7 @@ app.use(webpackDevMiddleware(webpack(webpackConfig)));
 app.use(bodyParser.urlencoded({extended: false}));
 
 
-const connectedUsers = ['dog'];
+const connectedUsers = ['Dog'];
 
 app.post('/', (req, res) => {
 	const Body = req.body.Body;
@@ -36,6 +36,7 @@ app.post('/', (req, res) => {
 })
 
 io.on('connection', socket => {
+
 	socket.on('new_user', (data, callback) => {
 		if (connectedUsers.indexOf(data) != -1){
 			callback({isValidUser: false});
@@ -43,6 +44,7 @@ io.on('connection', socket => {
 			socket.nickname = data;
 			connectedUsers.push(data);
 			callback({isValidUser: true});
+			io.emit("connected_users_update", connectedUsers);
 		}
 	});
 
@@ -50,9 +52,17 @@ io.on('connection', socket => {
 		socket.broadcast.emit('message', {
 			body,
 			//from: socket.id.slice(8)
-			from: socket.nickname
+			from: socket.nickname,
+			isOwnMessage: false
 		});
 	});
+
+	socket.on('disconnect', data => {
+		if (!socket.nickname) return;
+		connectedUsers.splice(connectedUsers.indexOf(socket.nickname), 1);
+		io.emit("connected_users_update", connectedUsers);
+	});
+
 });
 
 server.listen(3000);
