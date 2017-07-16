@@ -50,9 +50,12 @@ export default class App extends React.Component{
 					onMessageSubmit={this.onMessageSubmit}
 					onUsernameSubmit={this.onUsernameSubmit} />
 
-				<Messages messages={this.state.messages} />
-				
-				{showUsers}
+				<div className="row">
+	                <div className="col-lg-10 col-md-9 col-sm-9">
+						<Messages messages={this.state.messages} />
+					</div>
+					<div className="col-lg-2 col-md-3 col-sm-3">{showUsers}</div>
+				</div>
 
 			</MasterTemplate>
 		);

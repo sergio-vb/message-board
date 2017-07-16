@@ -15,9 +15,9 @@ app.use(webpackDevMiddleware(webpack(webpackConfig)));
 app.use(bodyParser.urlencoded({extended: false}));
 
 
-const connectedUsers = ['Dog'];
+const connectedUsers = [];
 
-app.post('/', (req, res) => {
+app.post('/sms', (req, res) => {
 	const Body = req.body.Body;
 	const From = req.body.From;
 	const MediaUrl0 = req.body.MediaUrl0;
@@ -30,7 +30,7 @@ app.post('/', (req, res) => {
 	io.emit('message', message);
 	res.send(`
 		<Response>
-			<Message>Thanks for texting! Hope you liked my projects! - Sergio V.</Message>
+			<Message>Thanks for texting! Hope you like my projects! - Sergio V.</Message>
 		</Response>
 	`);
 })
